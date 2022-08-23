@@ -6,22 +6,17 @@ const Users = require("../users/users-model")
 const bcrypt = require("bcryptjs")
 
 router.post("/register", validateRoleName, (req, res, next) => {
-
-  
-  /**
-    [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
-
-    response:
-    status 201
-    {
-      "user"_id: 3,
-      "username": "anna",
-      "role_name": "angel"
-    }
-   */
+  const {username, password, role_name} = req.body
+  const hash = bcrypt.hashSync(password, 12)
+  const user = {username: username, password: hash, role_name}
+  Users.add(user)
+    .then((result) => {  
+      res.status(201).json({username: username, role_name: req.body.role_name})
+    })
+    .catch((err) => {
+      console.log(err);      
+    })
 });
-
-
 
 //POST -> BCRYPT -> GENERATE TOKEN INSTEAD OF SESSION -> LOGIN
 router.post("/login", checkUsernameExists, (req, res, next) => {
@@ -65,6 +60,19 @@ function generateToken(user) {
       "subject"  : 1       // the user_id of the authenticated user
       "username" : "bob"   // the username of the authenticated user
       "role_name": "admin" // the role of the authenticated user
+    }
+   */
+
+
+      /**
+    [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
+
+    response:
+    status 201
+    {
+      "user"_id: 3,
+      "username": "anna",
+      "role_name": "angel"
     }
    */
 
