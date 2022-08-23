@@ -18,9 +18,13 @@ function find() {
       }
     ]
    */
-}
+} 
 
 function findBy(filter) {
+  return db("users")
+  .select("user_id", "username", "password", "role_name")
+  .join("roles", "roles.role_id", "users.role_id")
+  .where(filter)
   /**
     You will need to join two tables.
     Resolves to an ARRAY with all users that match the filter condition.
