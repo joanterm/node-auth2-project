@@ -27,7 +27,6 @@ const only = role_name => (req, res, next) => {
   next()
 }
 
-
 const checkUsernameExists = (req, res, next) => {
   Users.findBy({"username": req.body.username}).first()
     .then((result) => {
@@ -38,7 +37,6 @@ const checkUsernameExists = (req, res, next) => {
       next()
     })
 }
-
 
 const validateRoleName = (req, res, next) => {
   if(req.body.role_name == null || req.body.role_name.trim() === "") {
