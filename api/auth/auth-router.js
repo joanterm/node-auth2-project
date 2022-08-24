@@ -11,7 +11,7 @@ router.post("/register", validateRoleName, (req, res, next) => {
   const user = {username: username, password: hash, role_name}
   Users.add(user)
     .then((result) => {  
-      res.status(201).json({username: username, role_name: req.body.role_name})
+      res.status(201).json({user_id: result.user_id, username: username, role_name: result.role_name})
     })
     .catch((err) => {
       console.log(err);      
