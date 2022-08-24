@@ -2,28 +2,17 @@ const router = require("express").Router();
 const Users = require("./users-model.js");
 const { restricted, only } = require("../auth/auth-middleware.js");
 
-/**
-  [GET] /api/users
 
-  This endpoint is RESTRICTED: only authenticated clients
-  should have access.
-
-  response:
-  status 200
-  [
-    {
-      "user_id": 1,
-      "username": "bob"
-    }
-  ]
- */
+//GET -> in Postman, go to Headers -> add "Authorization" and "Value" (token from login)
 router.get("/", restricted, (req, res, next) => { // done for you
+  console.log(req.headers)
   Users.find()
-    .then(users => {
+    .then(users => {     
       res.json(users);
     })
     .catch(next);
 });
+
 
 /**
   [GET] /api/users/:user_id
@@ -49,3 +38,20 @@ router.get("/:user_id", restricted, only('admin'), (req, res, next) => { // done
 });
 
 module.exports = router;
+
+
+/**
+  [GET] /api/users
+
+  This endpoint is RESTRICTED: only authenticated clients
+  should have access.
+
+  response:
+  status 200
+  [
+    {
+      "user_id": 1,
+      "username": "bob"
+    }
+  ]
+ */

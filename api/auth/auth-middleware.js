@@ -1,24 +1,24 @@
 const { JWT_SECRET } = require("../secrets"); // use this secret!
 const Users = require("../users/users-model")
+const jwt = require("jsonwebtoken")
+
 
 const restricted = (req, res, next) => {
-  /*
-    If the user does not provide a token in the Authorization header:
-    status 401
-    {
-      "message": "Token required"
+  const token = req.headers.authorization
+    if(token == null) {
+      res.status(401).json({message: "Token required"})
+      return
+  }
+  jwt.verify(token, JWT_SECRET, (error, decodedToken) => {
+    if(error) {
+      res.status(401).json({message: "Token invalid"})
+      return
     }
-
-    If the provided token does not verify:
-    status 401
-    {
-      "message": "Token invalid"
-    }
-
-    Put the decoded token in the req object, to make life easier for middlewares downstream!
-  */
- next()
+    req.decodedToken = decodedToken
+    next()
+  })
 }
+
 
 const only = role_name => (req, res, next) => {
   /*
@@ -90,4 +90,22 @@ module.exports = {
     {
       "message": "Role name can not be longer than 32 chars"
     }
+  */
+
+
+      /*
+  RESTRICTED
+    If the user does not provide a token in the Authorization header:
+    status 401
+    {
+      "message": "Token required"
+    }
+
+    If the provided token does not verify:
+    status 401
+    {
+      "message": "Token invalid"
+    }
+
+    Put the decoded token in the req object, to make life easier for middlewares downstream!
   */
