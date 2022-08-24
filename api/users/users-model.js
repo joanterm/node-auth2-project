@@ -11,23 +11,18 @@ function find() {
   return db("users")
   .select("user_id", "username", "role_name")
   .join("roles", "roles.role_id", "users.role_id")
-  /**
-    You will need to join two tables.
-    Resolves to an ARRAY with all users.
-
-    [
-      {
-        "user_id": 1,
-        "username": "bob",
-        "role_name": "admin"
-      },
-      {
-        "user_id": 2,
-        "username": "sue",
-        "role_name": "instructor"
-      }
-    ]
-   */
+  // [
+  //   {
+  //     "user_id": 1,
+  //     "username": "bob",
+  //     "role_name": "admin"
+  //   },
+  //   {
+  //     "user_id": 2,
+  //     "username": "sue",
+  //     "role_name": "instructor"
+  //   }
+  // ]
 } 
 
 function findBy(filter) {
@@ -120,4 +115,24 @@ async function add({ username, password, role_name }) { // done for you
       "username": "sue",
       "role_name": "instructor"
     }
+   */
+
+
+      /**
+  FIND
+    You will need to join two tables.
+    Resolves to an ARRAY with all users.
+
+    [
+      {
+        "user_id": 1,
+        "username": "bob",
+        "role_name": "admin"
+      },
+      {
+        "user_id": 2,
+        "username": "sue",
+        "role_name": "instructor"
+      }
+    ]
    */
